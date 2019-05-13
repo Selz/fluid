@@ -107,7 +107,7 @@ namespace Fluid
                         {
                             int line = 1, col = 1;
 
-                            for(var i = segment.Offset; i < start; i++)
+                            for (var i = segment.Offset; i < start; i++)
                             {
                                 var ch = segment.Index(i);
 
@@ -125,6 +125,7 @@ namespace Fluid
                                         break;
                                 }
                             }
+
                             errors = tree
                                 .ParserMessages
                                 .Select(x => $"{x.Message} at line:{line + x.Location.Line}, col:{col + x.Location.Column}")
@@ -170,12 +171,13 @@ namespace Fluid
                         }
                     }
                 }
-                
+
                 // Make sure we aren't still in a block
                 if (_context._blocks.Count > 0)
                 {
                     throw (new ParseException($"Expected end of block: {_context.CurrentBlock.Tag}"));
                 }
+
                 return true;
             }
             catch (ParseException e)
@@ -452,7 +454,6 @@ namespace Fluid
                         {
                             end = template.IndexOf(endTag, from);
                             from = end + 1;
-
                         } while (end != -1 && end < template.Length - 1 && template.Index(end + 1) != '}');
 
                         if (end == -1 || end >= template.Length - 1)
@@ -483,7 +484,6 @@ namespace Fluid
         }
 
         #region Build methods
-
         public virtual Statement BuildTagStatement(ParseTreeNode node)
         {
             var tag = node.ChildNodes[0];
@@ -697,15 +697,15 @@ namespace Fluid
             // Selz:else tag
             if (tag.ChildNodes.Count == 0)
             {
-               _context.EnterBlockSection("else", new ElseStatement(new List<Statement>()));
-               return;
+                _context.EnterBlockSection("else", new ElseStatement(new List<Statement>()));
+                return;
             }
 
             var firstNode = tag.ChildNodes[0];
             // Selz: else if tag
             if (firstNode.Term.Name == "identifier" && tag.ChildNodes.Count > 1)
             {
-               EnterElsifSection(tag.ChildNodes[1]);
+                EnterElsifSection(tag.ChildNodes[1]);
             }
             else
             {
@@ -744,7 +744,7 @@ namespace Fluid
                 context.Statements,
                 elseStatements.FirstOrDefault(),
                 elseIfStatements
-                );
+            );
 
             return ifStatement;
         }
@@ -768,7 +768,7 @@ namespace Fluid
                 BuildExpression(context.Tag.ChildNodes[0]),
                 elseStatements.FirstOrDefault(),
                 whenStatements
-                );
+            );
 
             return caseStatement;
         }
@@ -796,7 +796,7 @@ namespace Fluid
             var unlessStatement = new UnlessStatement(
                 BuildExpression(_context.CurrentBlock.Tag.ChildNodes[0]),
                 _context.CurrentBlock.Statements
-                );
+            );
 
             return unlessStatement;
         }
@@ -1008,6 +1008,7 @@ namespace Fluid
                     {
                         throw new ParseException("Invalid boolean: " + node.Token.Text);
                     }
+
                     return new LiteralExpression(BooleanValue.Create(boolean));
 
                 default:
@@ -1074,21 +1075,20 @@ namespace Fluid
 
             return new AssignStatement(identifier, value);
         }
-
         #endregion
 
-// Selz: Do not need that since our include format is <% include filename %>
-//        private static void Traverse(ParseTreeNode tag)
-//        {
-//            if (tag.ChildNodes.Count == 1)
-//            {
-//                _assignStatements.Add(BuildIncludeAssignStatement(tag.ChildNodes[0]));
-//            }
-//            else
-//            {
-//                Traverse(tag.ChildNodes[0]);
-//                _assignStatements.Add(BuildIncludeAssignStatement(tag.ChildNodes[2]));
-//            }
-//        }
+        // Selz: Do not need that since our include format is <% include filename %>
+        //        private static void Traverse(ParseTreeNode tag)
+        //        {
+        //            if (tag.ChildNodes.Count == 1)
+        //            {
+        //                _assignStatements.Add(BuildIncludeAssignStatement(tag.ChildNodes[0]));
+        //            }
+        //            else
+        //            {
+        //                Traverse(tag.ChildNodes[0]);
+        //                _assignStatements.Add(BuildIncludeAssignStatement(tag.ChildNodes[2]));
+        //            }
+        //        }
     }
 }

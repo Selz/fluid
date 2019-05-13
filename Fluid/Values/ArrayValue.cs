@@ -75,6 +75,7 @@ namespace Fluid.Values
                     {
                         return FluidValue.Create(_value[0]);
                     }
+
                     break;
 
                 case "last":
@@ -82,8 +83,8 @@ namespace Fluid.Values
                     {
                         return FluidValue.Create(_value[_value.Count - 1]);
                     }
-                    break;
 
+                    break;
             }
 
             return NilValue.Instance;
@@ -91,7 +92,7 @@ namespace Fluid.Values
 
         protected override FluidValue GetIndex(FluidValue index, TemplateContext context)
         {
-            var i = (int)index.ToNumberValue();
+            var i = (int) index.ToNumberValue();
 
             if (i >= 0 && i < _value.Count)
             {

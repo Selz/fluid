@@ -259,7 +259,6 @@ namespace Fluid.Tests
         [InlineData("{% for i in (1..3) %} {{ i }} {% endfor %}", " 1  2  3 ")]
         public async Task BlockShouldMaintainWhiteSpaceWhenNotEmpty(string source, string expected)
         {
-
             FluidTemplate.TryParse(source, out var template, out var messages);
             var result = await template.RenderAsync();
 
@@ -323,7 +322,7 @@ namespace Fluid.Tests
 {% endfor %}");
 
             Assert.Single(statements);
-            Assert.Empty(((ForStatement)statements[0]).Statements);
+            Assert.Empty(((ForStatement) statements[0]).Statements);
         }
 
         [Fact]
@@ -333,17 +332,17 @@ namespace Fluid.Tests
 
 {% endfor %}");
             Assert.Single(statements);
-            Assert.Empty(((ForStatement)statements[0]).Statements);
+            Assert.Empty(((ForStatement) statements[0]).Statements);
         }
 
-        [Fact(Skip="TODO: temp reason")]
+        [Fact(Skip = "Success locally but fail on MyGet build, disable it for now")]
         public void ShouldOnlyTrimLineBreaks()
         {
             var statements = Parse(@"{% for a in b %}   
 a
 {% endfor %}");
             Assert.Single(statements);
-            var text = ((ForStatement)statements[0]).Statements[0] as TextStatement;
+            var text = ((ForStatement) statements[0]).Statements[0] as TextStatement;
             Assert.Equal("a\r\n", text.Text.ToString());
         }
 

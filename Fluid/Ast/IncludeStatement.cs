@@ -11,9 +11,10 @@ namespace Fluid.Ast
     {
         // Selz: Support to reuse the parent scope instead of open scope everytime
         // This is the white list of the template name which should reuse parent scope
-        private static readonly string[] ReuseScopeTemplateName = {"blocks-styles.liquid"};
+        private static readonly string[] ReuseScopeTemplateName = { "blocks-styles.liquid" };
 
         public string TemplateName { get; }
+
         // Selz: Flag to indicate whether scope need to be opened
         public bool OpenScope { get; }
 
@@ -24,7 +25,6 @@ namespace Fluid.Ast
             TemplateName = templateName;
             OpenScope = !ReuseScopeTemplateName.Contains(templateName);
         }
-
 
         public override async ValueTask<Completion> WriteToAsync(TextWriter writer, TextEncoder encoder, TemplateContext context)
         {
@@ -59,6 +59,7 @@ namespace Fluid.Ast
                 {
                     throw new Exception(String.Join(Environment.NewLine, errors));
                 }
+
                 // Selz: Release scope if it is opened
                 if (OpenScope)
                 {
@@ -72,16 +73,16 @@ namespace Fluid.Ast
         private static IFluidParser CreateParser(TemplateContext context)
         {
             return context.ParserFactory != null
-                ? context.ParserFactory.CreateParser()
-                : FluidTemplate.Factory.CreateParser()
+                    ? context.ParserFactory.CreateParser()
+                    : FluidTemplate.Factory.CreateParser()
                 ;
         }
 
         private static IFluidTemplate CreateTemplate(TemplateContext context, List<Statement> statements)
         {
-            IFluidTemplate template = context.TemplateFactory != null 
-                ? context.TemplateFactory()
-                : new FluidTemplate()
+            IFluidTemplate template = context.TemplateFactory != null
+                    ? context.TemplateFactory()
+                    : new FluidTemplate()
                 ;
 
             template.Statements = statements;

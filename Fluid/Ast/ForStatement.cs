@@ -13,7 +13,7 @@ namespace Fluid.Ast
     {
         public ForStatement(
             List<Statement> statements,
-            string identifier, 
+            string identifier,
             MemberExpression member,
             // Selz: Support expression for limit and offset instead of just number
             Expression limit,
@@ -26,9 +26,10 @@ namespace Fluid.Ast
             Offset = offset;
             Reversed = reversed;
         }
+
         public ForStatement(
             List<Statement> statements,
-            string identifier, 
+            string identifier,
             RangeExpression range,
             // Selz: Support expression for limit and offset instead of just number
             Expression limit,
@@ -43,7 +44,9 @@ namespace Fluid.Ast
         }
 
         public string Identifier { get; }
+
         public RangeExpression Range { get; }
+
         // Selz: Support expression for limit and offset instead of just number
         public MemberExpression Member { get; }
         public Expression Limit { get; }
@@ -76,7 +79,7 @@ namespace Fluid.Ast
                     {
                         _rangeElements.Add(NumberValue.Create(i));
                     }
-                    
+
                     elements = _rangeElements;
                     _rangeStart = start;
                     _rangeEnd = end;
@@ -96,13 +99,13 @@ namespace Fluid.Ast
 
             if (Offset != null)
             {
-                var offset = (int)(await Offset.EvaluateAsync(context)).ToNumberValue();
+                var offset = (int) (await Offset.EvaluateAsync(context)).ToNumberValue();
                 elements = elements.Skip(offset);
             }
 
             if (Limit != null)
             {
-                var limit = (int)(await Limit.EvaluateAsync(context)).ToNumberValue();
+                var limit = (int) (await Limit.EvaluateAsync(context)).ToNumberValue();
                 elements = elements.Take(limit);
             }
 

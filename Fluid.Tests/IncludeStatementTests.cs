@@ -82,13 +82,11 @@ color: 'blue'
 shape: 'circle'";
 
             await new IncludeStatement(expression
-//                , assignStatements: assignStatements
-                ).WriteToAsync(sw, HtmlEncoder.Default, context);
+                //                , assignStatements: assignStatements
+            ).WriteToAsync(sw, HtmlEncoder.Default, context);
 
             Assert.Equal(expectedResult, sw.ToString());
         }
-
-
 
         [Fact(Skip = "Selz: Our include statement format do not need with statement and input is <% include filename %>")]
         public async Task IncludeSatement_WithTagParams_ShouldBeEvaluated()
@@ -113,8 +111,8 @@ color: 'blue'
 shape: ''";
 
             await new IncludeStatement(pathExpression
-//                , with: withExpression
-                ).WriteToAsync(sw, HtmlEncoder.Default, context);
+                // , with: withExpression
+            ).WriteToAsync(sw, HtmlEncoder.Default, context);
 
             Assert.Equal(expectedResult, sw.ToString());
         }
@@ -132,7 +130,7 @@ shape: ''";
                 FileProvider = fileProvider
             };
 
-           await Assert.ThrowsAsync<InvalidOperationException>(() => new IncludeStatement("_Partial.liquid").WriteToAsync(sw, HtmlEncoder.Default, context).AsTask());
+            await Assert.ThrowsAsync<InvalidOperationException>(() => new IncludeStatement("_Partial.liquid").WriteToAsync(sw, HtmlEncoder.Default, context).AsTask());
         }
     }
 }

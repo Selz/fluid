@@ -8,7 +8,6 @@ namespace Fluid
         // Selz: Support the filename in <%Include filename.liquid %>
         public IdentifierTerminal FileIdentifier = new IdentifierTerminal("identifier", "-_.", "-_.");
 
-
         public IdentifierTerminal Identifier = new IdentifierTerminal("identifier", "-_", "-_");
         public NonTerminal MemberAccess = new NonTerminal("memberAccess");
         public NonTerminal MemberAccessSegmentOpt = new NonTerminal("memberAccessSegmentOpt");
@@ -34,7 +33,7 @@ namespace Fluid
         public NonTerminal If = new NonTerminal("if");
         public NonTerminal Elsif = new NonTerminal("elsif");
         public NonTerminal Unless = new NonTerminal("unless");
-        
+
         public NonTerminal Case = new NonTerminal("case");
         public NonTerminal When = new NonTerminal("when");
         public NonTerminal TermList = new NonTerminal("termList");
@@ -53,7 +52,7 @@ namespace Fluid
         public NonTerminal Capture = new NonTerminal("capture");
         public NonTerminal Increment = new NonTerminal("increment");
         public NonTerminal Decrement = new NonTerminal("decrement");
-        
+
         public NonTerminal Include = new NonTerminal("include");
         public NonTerminal IncludeAssignments = new NonTerminal("includeAssignments");
         public NonTerminal IncludeAssignment = new NonTerminal("includeAssignment");
@@ -72,7 +71,6 @@ namespace Fluid
 
         public NonTerminal Else = new NonTerminal("else");
         // Selz: End Customed terminal name
-
 
         public FluidGrammar() : base(caseSensitive: true)
         {
@@ -113,8 +111,8 @@ namespace Fluid
             Term.Rule = MemberAccess | StringLiteralSingle | StringLiteralDouble | Number | Boolean;
             BinaryExpression.Rule = Expression + BinaryOperator + Expression;
             BinaryOperator.Rule = ToTerm("+") | ToTerm("-") | ToTerm("*") | ToTerm("/") | ToTerm("%")
-                       | ToTerm("==") | ToTerm(">") | ToTerm("<") | ToTerm(">=") | ToTerm("<=") | ToTerm("<>") | ToTerm("!=") | ToTerm("contains")
-                       | ToTerm("and") | ToTerm("or");
+                                  | ToTerm("==") | ToTerm(">") | ToTerm("<") | ToTerm(">=") | ToTerm("<=") | ToTerm("<>") | ToTerm("!=") | ToTerm("contains")
+                                  | ToTerm("and") | ToTerm("or");
             Boolean.Rule = True | False;
 
             // Operators
@@ -143,7 +141,7 @@ namespace Fluid
             PipeStringLiteral.Rule = Pipe + StringLiteralAll;
 
             // Selz: Support  {% form 'search' | 'form-search' %}
-            FormArguments.Rule =  StringLiteralAll;
+            FormArguments.Rule = StringLiteralAll;
             FormArguments.Rule |= StringLiteralAll + Pipe + ExpressionList;
 
             // Selz: {% editable_region footer true %}
@@ -214,14 +212,12 @@ namespace Fluid
             Assign.Rule = ToTerm("assign") + Identifier + ToTerm("=") + Expression;
             Assign.Rule |= ToTerm("assign") + Identifier + ToTerm("=") + Expression + ";";
 
-
             // Selz: Support <% include filename syntax %>
             Include.Rule = ToTerm("include") + FileIdentifier;
 
             Cycle.Rule = ToTerm("cycle") + Term + Colon + CycleArguments;
             Cycle.Rule |= ToTerm("cycle") + CycleArguments;
             CycleArguments.Rule = MakePlusRule(CycleArguments, Comma, Term);
-
 
             Increment.Rule = ToTerm("increment") + Identifier;
             Decrement.Rule = ToTerm("decrement") + Identifier;
@@ -234,21 +230,18 @@ namespace Fluid
             // Selz: Make else into keyword list
             MarkPunctuation(
                 "[", "]", ":", "|", "=",
-
                 "if", "elsif", "else", "unless", "assign", "capture",
                 "increment", "decrement",
                 "case",
                 "for", "in", "(", ")", "..",
                 "when", "cycle", "limit", "offset",
                 "include", "with"
-                );
-
+            );
 
             MarkPunctuation(Dot, TagStart, TagEnd, OutputStart, OutputEnd, Colon, By);
             // Selz: Make String All and By to the node not show in the result
             MarkTransient(Statement, KnownTags, ForSource, RangeIndex, BinaryOperator, ForOption, Term,
                 StringLiteralAll);
         }
-
     }
 }

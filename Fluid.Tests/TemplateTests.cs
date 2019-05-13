@@ -13,7 +13,7 @@ namespace Fluid.Tests
 {
     public class TemplateTests
     {
-        private object _products = new []
+        private object _products = new[]
         {
             new { name = "product 1", price = 1 },
             new { name = "product 2", price = 2 },
@@ -60,12 +60,18 @@ namespace Fluid.Tests
             var context = new TemplateContext();
             var sw = new StringWriter();
             TextEncoder encoder = null;
-            
+
             switch (encoderType)
             {
-                case "html" : encoder = HtmlEncoder.Default; break;
-                case "url" : encoder = UrlEncoder.Default; break;
-                case "null" : encoder = NullEncoder.Default; break;
+                case "html":
+                    encoder = HtmlEncoder.Default;
+                    break;
+                case "url":
+                    encoder = UrlEncoder.Default;
+                    break;
+                case "null":
+                    encoder = NullEncoder.Default;
+                    break;
             }
 
             await template.RenderAsync(sw, encoder, context);
@@ -110,12 +116,12 @@ namespace Fluid.Tests
             FluidTemplate.TryParse(source, out var template, out var messages);
             var context = new TemplateContext();
 
-            context.Filters.AddFilter("inc", (i, args, ctx) => 
+            context.Filters.AddFilter("inc", (i, args, ctx) =>
             {
                 var increment = 1;
                 if (args.Count > 0)
                 {
-                    increment = (int)args.At(0).ToNumberValue();
+                    increment = (int) args.At(0).ToNumberValue();
                 }
 
                 return NumberValue.Create(i.ToNumberValue() + increment);
@@ -267,20 +273,19 @@ namespace Fluid.Tests
             return CheckAsync(template, expected, ctx => { ctx.SetValue("x", x); });
         }
 
-        // "TODO: temp reason"
-        //[Theory]
-        //[InlineData(@"
-        //    {%cycle 'a', 'b'%}
-        //    {%cycle 'a', 'b'%}
-        //    {%cycle 'a', 'b'%}", "\r\naba")]
-        //[InlineData(@"
-        //    {%cycle x:'a', 'b'%}
-        //    {%cycle 'a', 'b'%}
-        //    {%cycle x:'a', 'b'%}", "\r\naab")]
-        //public Task ShouldEvaluateCycleStatement(string source, string expected)
-        //{
-        //    return CheckAsync(source, expected, ctx => { ctx.SetValue("x", 3); });
-        //}
+        [Theory(Skip = "Test run success locally but fail on MyGit build, disable it for now")]
+        [InlineData(@"
+            {%cycle 'a', 'b'%}
+            {%cycle 'a', 'b'%}
+            {%cycle 'a', 'b'%}", "\r\naba")]
+        [InlineData(@"
+            {%cycle x:'a', 'b'%}
+            {%cycle 'a', 'b'%}
+            {%cycle x:'a', 'b'%}", "\r\naab")]
+        public Task ShouldEvaluateCycleStatement(string source, string expected)
+        {
+            return CheckAsync(source, expected, ctx => { ctx.SetValue("x", 3); });
+        }
 
         [Theory]
         [InlineData("{% assign x = 123 %} {{x}}", " 123")]
@@ -500,7 +505,6 @@ namespace Fluid.Tests
             return CheckAsync(source, expected, ctx => { ctx.SetValue("products", _products); });
         }
 
-
         [Fact(Skip = "Selz: Our include statement format do not need argument list and have input of <% include filename %>")]
         public async Task IncludeParamsShouldNotBeSetInTheParentTemplate()
         {
@@ -560,7 +564,7 @@ shape: '{{ shape }}'");
             var context = new TemplateContext
             {
                 FileProvider = fileProvider
-            };           
+            };
 
             var result = await template.RenderAsync(context);
 
@@ -574,8 +578,16 @@ shape: '{{ shape }}'");
 
             var context = new TemplateContext();
             context.SetValue("Content", new Content());
-            context.MemberAccessStrategy.Register<Content, string>("Foo", async (obj, name) => { await Task.Delay(100); return "Bar"; });
-            context.MemberAccessStrategy.Register<Content, string>(async (obj, name) => { await Task.Delay(100); return name; });
+            context.MemberAccessStrategy.Register<Content, string>("Foo", async (obj, name) =>
+            {
+                await Task.Delay(100);
+                return "Bar";
+            });
+            context.MemberAccessStrategy.Register<Content, string>(async (obj, name) =>
+            {
+                await Task.Delay(100);
+                return name;
+            });
 
             var result = await template.RenderAsync(context);
             Assert.Equal("BarBaz", result);
@@ -587,7 +599,11 @@ shape: '{{ shape }}'");
             FluidTemplate.TryParse("{{ Test }}", out var template, out var messages);
             bool set = false;
             var context = new TemplateContext();
-            context.SetValue("Test", () => { set = true; return set; });
+            context.SetValue("Test", () =>
+            {
+                set = true;
+                return set;
+            });
 
             Assert.False(set);
             var result = await template.RenderAsync(context);

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Fluid.Values
 {
-    public class ReplayArrayValue: ArrayValue, IOriginalValue
+    public class ReplayArrayValue : ArrayValue, IOriginalValue
     {
         public object OriginalValue { get; set; }
 

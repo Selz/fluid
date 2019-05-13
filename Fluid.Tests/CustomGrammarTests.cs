@@ -96,7 +96,7 @@ namespace Fluid.Tests
                 null,
                 null,
                 false);
-        }        
+        }
     }
 
     public class IceTag : IdentifierTag
@@ -183,7 +183,7 @@ namespace Fluid.Tests
             {
                 await writer.WriteAsync(argument.Name + ":");
                 await writer.WriteAsync((await argument.Expression.EvaluateAsync(context)).ToStringValue());
-            }            
+            }
 
             await RenderStatementsAsync(writer, encoder, context, statements);
 
