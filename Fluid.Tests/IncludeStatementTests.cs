@@ -82,7 +82,8 @@ color: 'blue'
 shape: 'circle'";
 
             await new IncludeStatement(expression
-                //                , assignStatements: assignStatements
+            // Selz: We do not need assignments and our include has the format of <% include filename %>
+            // , assignStatements: assignStatements
             ).WriteToAsync(sw, HtmlEncoder.Default, context);
 
             Assert.Equal(expectedResult, sw.ToString());
@@ -111,7 +112,8 @@ color: 'blue'
 shape: ''";
 
             await new IncludeStatement(pathExpression
-                // , with: withExpression
+            // Selz: We do not need WithExpression and our include has the format of <% include filename %>
+            // , with: withExpression
             ).WriteToAsync(sw, HtmlEncoder.Default, context);
 
             Assert.Equal(expectedResult, sw.ToString());
