@@ -7,7 +7,7 @@ using System.Text.Encodings.Web;
 
 namespace Fluid.Values
 {
-    //Selz: Can not be sealed need to inherit it
+    // Selz: Can not be sealed need to inherit it
     public class ArrayValue : FluidValue
     {
         private readonly List<FluidValue> _value;

@@ -21,9 +21,8 @@ namespace Fluid
         private readonly Dictionary<string, ITag> _blocks;
         protected ParserContext _context;
 
-//        Selz: Our include tag format is <%include filename> we do not need these assignStatement
-//        private static IList<AssignStatement> _assignStatements;
-
+        // Selz: Our include tag format is <%include filename> we do not need these assignStatement
+        // private static IList<AssignStatement> _assignStatements;
         public DefaultFluidParser(LanguageData languageData, Dictionary<string, ITag> tags, Dictionary<string, ITag> blocks)
         {
             _languageData = languageData;
@@ -661,7 +660,7 @@ namespace Fluid
 
         public static IncludeStatement BuildIncludeStatement(ParseTreeNode tag)
         {
-            //Selz: we need to support the format of <% include filename %>
+            // Selz: we need to support the format of <% include filename %>
             var pathExpression = tag.ChildNodes[0].Token.ValueString;
 
             return new IncludeStatement(pathExpression);
@@ -695,7 +694,7 @@ namespace Fluid
         // Selz: Else tag to handle both the else and else if to handle both
         public void EnterElseSection(ParseTreeNode tag)
         {
-            //Selz:else tag
+            // Selz:else tag
             if (tag.ChildNodes.Count == 0)
             {
                _context.EnterBlockSection("else", new ElseStatement(new List<Statement>()));
@@ -703,14 +702,14 @@ namespace Fluid
             }
 
             var firstNode = tag.ChildNodes[0];
-            //Selz: else if tag
+            // Selz: else if tag
             if (firstNode.Term.Name == "identifier" && tag.ChildNodes.Count > 1)
             {
                EnterElsifSection(tag.ChildNodes[1]);
             }
             else
             {
-                //Selz: Fallback to else tag
+                // Selz: Fallback to else tag
                 _context.EnterBlockSection("else", new ElseStatement(new List<Statement>()));
             }
         }

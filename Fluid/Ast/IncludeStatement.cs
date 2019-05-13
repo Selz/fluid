@@ -9,12 +9,12 @@ namespace Fluid.Ast
 {
     public class IncludeStatement : Statement
     {
-        //Selz: Support to reuse the parent scope instead of open scope everytime
-        //This is the white list of the template name which should reuse parent scope
+        // Selz: Support to reuse the parent scope instead of open scope everytime
+        // This is the white list of the template name which should reuse parent scope
         private static readonly string[] ReuseScopeTemplateName = {"blocks-styles.liquid"};
 
         public string TemplateName { get; }
-        //Selz: Flag to indicate whether scope need to be opened
+        // Selz: Flag to indicate whether scope need to be opened
         public bool OpenScope { get; }
 
         public const string ViewExtension = ".liquid";

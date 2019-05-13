@@ -5,7 +5,7 @@ namespace Fluid
     [Language("Fluid", "0.2", "Liquid based syntax")]
     public class FluidGrammar : Grammar
     {
-        //Selz: Support the filename in <%Include filename.liquid %>
+        // Selz: Support the filename in <%Include filename.liquid %>
         public IdentifierTerminal FileIdentifier = new IdentifierTerminal("identifier", "-_.", "-_.");
 
 
@@ -58,7 +58,7 @@ namespace Fluid
         public NonTerminal IncludeAssignments = new NonTerminal("includeAssignments");
         public NonTerminal IncludeAssignment = new NonTerminal("includeAssignment");
 
-        //Selz: Start Customed terminal name
+        // Selz: Start Customed terminal name
         public NonTerminal PaginateArguments = new NonTerminal("paginateArguments");
         public NonTerminal FormArguments = new NonTerminal("formArguments");
         public NonTerminal PipeStringLiteral = new NonTerminal("pipeStringLiteral");
@@ -71,7 +71,7 @@ namespace Fluid
         public NonTerminal EditableRegionArguments = new NonTerminal("editableRegionArguments");
 
         public NonTerminal Else = new NonTerminal("else");
-        //Selz: End Customed terminal name
+        // Selz: End Customed terminal name
 
 
         public FluidGrammar() : base(caseSensitive: true)
@@ -231,7 +231,7 @@ namespace Fluid
             IncludeAssignments.Rule = (IncludeAssignments + Comma + IncludeAssignment) | IncludeAssignment;
             IncludeAssignment.Rule = Identifier + Colon + Term;
 
-            //Selz: Make else into keyword list
+            // Selz: Make else into keyword list
             MarkPunctuation(
                 "[", "]", ":", "|", "=",
 
@@ -245,7 +245,7 @@ namespace Fluid
 
 
             MarkPunctuation(Dot, TagStart, TagEnd, OutputStart, OutputEnd, Colon, By);
-            //Selz: Make String All and By to the node not show in the result
+            // Selz: Make String All and By to the node not show in the result
             MarkTransient(Statement, KnownTags, ForSource, RangeIndex, BinaryOperator, ForOption, Term,
                 StringLiteralAll);
         }

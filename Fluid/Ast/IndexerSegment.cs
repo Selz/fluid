@@ -16,7 +16,7 @@ namespace Fluid.Ast
         {
             var index = await Expression.EvaluateAsync(context);
 
-            //Selz: Support dynamic load properties from Array e.g. categoriesDrop["featured"]
+            // Selz: Support dynamic load properties from Array e.g. categoriesDrop["featured"]
             if (value is ReplayArrayValue replayArrayValue && index.Type == FluidValues.String)
             {
                 var originalValue = new ObjectValue(replayArrayValue.OriginalValue);

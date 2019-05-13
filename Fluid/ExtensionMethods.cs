@@ -1,4 +1,4 @@
-//Selz: Helper method to convert string to snakecase for the member name etc
+// Selz: Helper method to convert string to snakecase for the member name etc
 using System.Linq;
 
 namespace Fluid

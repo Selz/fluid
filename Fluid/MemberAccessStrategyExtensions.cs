@@ -22,7 +22,7 @@ namespace Fluid
 
                 foreach (var propertyInfo in t.GetTypeInfo().GetProperties(BindingFlags.Public | BindingFlags.Instance))
                 {
-                    //Selz: We want indexed property as dynamic property
+                    // Selz: We want indexed property as dynamic property
                     //if (propertyInfo.GetIndexParameters().Length > 0)
                     //{
                     //    // Indexed property...
