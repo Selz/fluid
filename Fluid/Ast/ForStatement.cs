@@ -121,6 +121,9 @@ namespace Fluid.Ast
                 return Completion.Normal;
             }
 
+            // Selz: We need to keep the original value for the identifier so that
+            // after the for statement it will not be override
+            var originalValue = context.GetValue(Identifier);
             try
             {
                 var forloop = new ForLoopValue();
@@ -179,6 +182,7 @@ namespace Fluid.Ast
             finally
             {
                 context.LocalScope.Delete("forloop");
+                context.SetValue(Identifier, originalValue);
             }
 
             return Completion.Normal;
