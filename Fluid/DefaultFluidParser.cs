@@ -538,6 +538,7 @@ namespace Fluid
 
                 // Selz: Unify the the api call so that both elsif and else if can use the same utility function
                 case "elsif":
+                case "elseif":
                     EnterElsifSection(tag.ChildNodes[0]);
                     break;
 

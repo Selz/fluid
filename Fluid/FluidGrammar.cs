@@ -70,6 +70,8 @@ namespace Fluid
         public NonTerminal EditableRegionArguments = new NonTerminal("editableRegionArguments");
 
         public NonTerminal Else = new NonTerminal("else");
+
+        public NonTerminal ElseIf = new NonTerminal("elseif");
         // Selz: End Customed terminal name
 
         public FluidGrammar() : base(caseSensitive: true)
@@ -174,7 +176,7 @@ namespace Fluid
 
             KnownTags.Rule =
                 If | EndIf |
-                Elsif | Else |
+                Elsif | ElseIf | Else |
                 Unless | EndUnless |
                 Case | EndCase | When |
                 For | EndFor |
@@ -208,6 +210,9 @@ namespace Fluid
             Else.Rule = ToTerm("else");
             Else.Rule |= ToTerm("else") + Identifier + Expression;
 
+            // Selz: Support elseif expression syntax
+            ElseIf.Rule = ToTerm("elseif") + Expression;
+
             // Selz: Support <% assign varible = filename %> syntax
             Assign.Rule = ToTerm("assign") + Identifier + ToTerm("=") + Expression;
             Assign.Rule |= ToTerm("assign") + Identifier + ToTerm("=") + Expression + ";";
@@ -230,7 +235,7 @@ namespace Fluid
             // Selz: Make else into keyword list
             MarkPunctuation(
                 "[", "]", ":", "|", "=",
-                "if", "elsif", "else", "unless", "assign", "capture",
+                "if", "elsif", "elseif", "else", "unless", "assign", "capture",
                 "increment", "decrement",
                 "case",
                 "for", "in", "(", ")", "..",
