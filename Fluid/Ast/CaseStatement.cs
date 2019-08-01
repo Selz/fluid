@@ -29,6 +29,7 @@ namespace Fluid.Ast
             context.IncrementSteps();
 
             var value = await Expression.EvaluateAsync(context);
+            bool hasAnyMatch = false;
 
             if (Whens != null)
             {
@@ -38,10 +39,17 @@ namespace Fluid.Ast
                     {
                         if (value.Equals(await option.EvaluateAsync(context)))
                         {
-                            return await when.WriteToAsync(writer, encoder, context);
+                            hasAnyMatch = true;
+                            await when.WriteToAsync(writer, encoder, context);
+                            break;
                         }
                     }
                 }
+            }
+
+            if (hasAnyMatch)
+            {
+                return Completion.Normal;
             }
 
             if (Else != null)
