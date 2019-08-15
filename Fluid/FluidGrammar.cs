@@ -90,6 +90,7 @@ namespace Fluid
             var Number = new NumberLiteral("number", NumberOptions.AllowSign);
             var True = ToTerm("true");
             var False = ToTerm("false");
+            var FilterComma = ToTerm(",");
 
             // Non-terminals
 
@@ -155,6 +156,7 @@ namespace Fluid
             FilterList.Rule = MakeStarRule(FilterList, Filter);
             Filter.Rule = Pipe + Identifier;
             Filter.Rule |= Pipe + Identifier + Colon + FilterArguments;
+            Filter.Rule |= Pipe + Identifier + FilterComma + FilterArguments;
             FilterArguments.Rule = MakeListRule(FilterArguments, Comma, FilterArgument);
             FilterArgument.Rule = Identifier + Colon + Term;
             FilterArgument.Rule |= Term;
@@ -243,7 +245,7 @@ namespace Fluid
                 "include", "with"
             );
 
-            MarkPunctuation(Dot, TagStart, TagEnd, OutputStart, OutputEnd, Colon, By);
+            MarkPunctuation(Dot, TagStart, TagEnd, OutputStart, OutputEnd, Colon, By, FilterComma);
             // Selz: Make String All and By to the node not show in the result
             MarkTransient(Statement, KnownTags, ForSource, RangeIndex, BinaryOperator, ForOption, Term,
                 StringLiteralAll);
