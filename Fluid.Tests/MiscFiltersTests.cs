@@ -155,6 +155,7 @@ namespace Fluid.Tests
         [InlineData("%z", "+08:00")]
         [InlineData("%%", "%")]
         [InlineData("It is %r", "It is 5:04:36 PM")]
+        [InlineData("yyyy-MM-dd h:mm tt", "2017-08-01 5:04 PM")]
         public void Date(string format, string expected)
         {
             var input = new DateTimeValue(new DateTimeOffset(new DateTime(2017, 8, 1, 17, 4, 36, 123), TimeSpan.FromHours(8)));
@@ -163,7 +164,7 @@ namespace Fluid.Tests
             var context = new TemplateContext();
             context.CultureInfo = new CultureInfo("en-US");
 
-            var result = MiscFilters.Date(input, arguments, context);
+            var result = MiscFilters.DateAdvanced(input, arguments, context);
 
             Assert.Equal(expected, result.ToStringValue());
         }

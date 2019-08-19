@@ -22,7 +22,7 @@ namespace Fluid.Filters
         public static FilterCollection WithMiscFilters(this FilterCollection filters)
         {
             filters.AddFilter("default", Default);
-            filters.AddFilter("date", Date);
+            filters.AddFilter("date", DateAdvanced);
             filters.AddFilter("format_date", FormatDate);
             filters.AddFilter("raw", Raw);
             filters.AddFilter("compact", Compact);
@@ -120,6 +120,36 @@ namespace Fluid.Filters
         public static FluidValue EscapeOnce(FluidValue input, FilterArguments arguments, TemplateContext context)
         {
             return new StringValue(WebUtility.HtmlEncode(WebUtility.HtmlDecode(input.ToStringValue())));
+        }
+        /// <summary>
+        /// Date filter to support both the .net and Ruby date format
+        /// </summary>
+        public static FluidValue DateAdvanced(FluidValue input, FilterArguments arguments, TemplateContext context)
+        {
+            if (!TryGetDateTimeInput(input, context, out var value))
+            {
+                return NilValue.Instance;
+            }
+            
+            if (arguments.At(0).IsNil())
+            {
+                return NilValue.Instance;
+            }
+
+            var format = arguments.At(0).ToStringValue();
+
+            // Use Dotnet format to convert and fallback to the Ruby format
+            try
+            {
+                var result = value.ToString(format, context.CultureInfo);
+                if (DateTime.TryParse(result, out var _))
+                {
+                    return new StringValue(result);
+                }
+            }
+            catch (Exception){}
+           
+            return Date(input, arguments, context);
         }
 
         public static FluidValue Date(FluidValue input, FilterArguments arguments, TemplateContext context)
