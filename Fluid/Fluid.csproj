@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Version Condition=" '$(NUGET_BUILD_NUMBER)' == '' ">1.0.0-local</Version>
     <Version Condition=" '$(NUGET_BUILD_NUMBER)' != '' ">1.0.$(NUGET_BUILD_NUMBER)</Version>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard1.6;netstandard2.0;net46</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Authors>Selz</Authors>
     <Description>Selz custom fluid package</Description>
