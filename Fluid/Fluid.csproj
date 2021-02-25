@@ -10,7 +10,9 @@
     <RepositoryUrl>https://github.com/Selz/fluid</RepositoryUrl>
     <PackageTags>fluid</PackageTags>
   </PropertyGroup>
-
+  <PropertyGroup>
+    <NoWarn>1701;1702;NU5125</NoWarn>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Irony.Core" Version="1.0.7" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="1.1.1" />
